@@ -39,14 +39,14 @@ const page = () => {
 
                     <div className="w-full xl:w-1/2 xl:border-l-2 h-full flex flex-col justify-center items-center bg-[#FBFAF5] dark:bg-[#1c1c1c]">
                         
-                        <div className='mb-8 w-full flex justify-end px-32'>
+                        <div className='mb-4 xl:mb-8 w-full flex justify-end px-4 xl:px-32'>
                             <DarkModeSwitcher/>
                         </div>
                         <div className="w-full p-4 sm:p-12.5 xl:px-32">
-                            <h1 className="w-full flex justify-start items-center mb-6 text-7xl font-bold text-black dark:text-[#FBFAF5] sm:text-title-xl2">
+                            <h1 className="w-full flex justify-start items-center mb-6 text-3xl xl:text-7xl font-bold text-black dark:text-[#FBFAF5] sm:text-title-xl2">
                                 Silahkan LogIn
                             </h1>
-                            <h1 className="w-full flex justify-start items-center mb-6 text-xl text-[#666666] dark:text-[#FBFAF5] sm:text-title-xl2">
+                            <h1 className="w-full flex justify-start items-center mb-6 text-md xl:text-xl text-[#666666] dark:text-[#FBFAF5] sm:text-title-xl2">
                                 Masukkan Username dan password anda untuk masuk
                             </h1>
 
