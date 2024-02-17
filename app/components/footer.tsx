@@ -6,8 +6,8 @@ import { AiOutlineYoutube } from 'react-icons/ai';
 
 const footer = () => {
   return (
-    <div className='w-full flex items-center justify-center bg-[#131167] z-50'>
-      <div className='bg-[#131167] w-full xl:w-[1280px] text-gray-100 text-sm text-center md:text-left md:py-8 md:px-8 pb-8'>
+    <div className='w-full flex items-center justify-center bg-[#131167] dark:bg-[#2e2e2e] z-50'>
+      <div className='bg-[#131167] dark:bg-[#2e2e2e] w-full xl:w-[1280px] text-gray-100 text-sm text-center md:text-left md:py-8 md:px-8 pb-8'>
         <div className='w-full md:flex'>
 
             <div className='flex justify-center items-center md:items-start flex-col w-full md:w-1/4 py-2 pt-8 md:pt-2 px-2 pl-4 lg:w-2/5'>
