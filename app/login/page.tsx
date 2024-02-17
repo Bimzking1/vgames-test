@@ -3,10 +3,13 @@
 import React from 'react'
 import Link from 'next/link';
 import Image from "next/image";
+import { useRouter } from 'next/navigation';
 
 import DarkModeSwitcher from '../components/DarkModeSwitcher';
 
 const page = () => {
+
+    const router = useRouter()
 
     return (
         <div className=''>
@@ -50,7 +53,7 @@ const page = () => {
                                 Masukkan Username dan password anda untuk masuk
                             </h1>
 
-                            <form>
+                            <form className='text-[#1c1c1c] dark:text-[#FBFAF5]'>
                                 <div className="mb-4">
                                 <label className="mb-2.5 block font-semibold text-[#666666] dark:text-[#FBFAF5]">
                                     Username
@@ -124,14 +127,14 @@ const page = () => {
                                 <div className="mb-5">
                                 <div
                                     // onClick={handleSubmit}
-                                    className="w-full text-center font-bold cursor-pointer rounded-full bg-[#E5E7FD] text-[#131167] p-4 transition duration-300 hover:bg-[#131167] hover:text-[#E5E7FD]"
+                                    className="w-full text-center font-bold cursor-pointer rounded-full bg-[#131167] text-[#E5E7FD] dark:bg-[#E5E7FD] dark:text-[#131167] p-4 transition duration-300 hover:bg-[#E5E7FD] hover:text-[#131167] dark:hover:bg-[#131167] dark:hover:text-[#E5E7FD]"
                                 >
                                     Masuk Sekarang
                                 </div>
                                 </div>
 
                                 <div className="mt-6 text-center">
-                                    <Link href="/register" className='text-[#1c1c1c] dark:text-[#FBFAF5] w-full flex justify-center align-items-center text-center gap-2'>
+                                    <Link href={'/register'} className='text-[#1c1c1c] dark:text-[#FBFAF5] w-full flex justify-center align-items-center text-center gap-2'>
                                         <p className='font-semibold'>Belum punya akun?</p>
                                         <p className="font-semibold text-[#131167] dark:text-[#848eff]">Daftar Sekarang</p>
                                     </Link>
