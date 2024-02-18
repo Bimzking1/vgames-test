@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Vgames-test
+### Deploy: https://vgames-test.vercel.app/
 
-## Getting Started
+<hr/>
 
-First, run the development server:
+## Flow Aplikasi
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Register --> Login --> Dashboard Page
+- Jika hanya ingin login, telah disediakan user anonim permanen:
+
+```
+username: anonim
+password: 123
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<hr/>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Fitur
+- Login
+- Register
+- Update Profile
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+<hr/>
 
-## Learn More
+## Tech Stack / Library
 
-To learn more about Next.js, take a look at the following resources:
+- Next / Typescript
+- React Redux
+- Tailwind CSS
+- Toastify
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<hr/>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Run in Localhost
 
-## Deploy on Vercel
+- Clone repository dengan memasukkan command ``git clone https://github.com/Bimzking1/vgames-test.git`` pada terminal.
+- Masukkan command ``npm install`` pada terminal untuk menginstall package.
+- Masukkan command ``npm run dev`` pada terminal untuk menjalankan aplikasi.
+- Masuk ke browser dan buka aplikasi pada ``http://localhost:3000/``
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+<hr/>
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+#### by: Paulus Bimo
+#### email: paulbimos@gmail.com
+#### whatsapp: 0878 4075 8430

@@ -3,7 +3,6 @@
 import React from 'react'
 import Link from 'next/link';
 import Image from "next/image";
-import Cookies from "js-cookie";
 import { useRouter } from 'next/navigation';
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
@@ -60,10 +59,6 @@ const page = () => {
                 theme: "light",
             });
 
-            Cookies.set('cookie', 'cookie', {
-              expires: new Date(new Date().getTime() + 1 * 60 * 1000),
-            });
-
             router.push('/')
         } else {
 
@@ -79,8 +74,6 @@ const page = () => {
             });
         }
     }
-
-    console.log('users: ', users)
 
     return (
         <div className=''>

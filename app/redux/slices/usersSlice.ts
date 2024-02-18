@@ -12,7 +12,7 @@ interface User {
 const initialState: User[] = [
   { 
     id: nanoid(), 
-    username: 'User Default', 
+    username: 'anonim', 
     handphone: '1234567890',
     password: '123',
     confirmPassword: '123',
