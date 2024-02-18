@@ -4,12 +4,78 @@ import React from 'react'
 import Link from 'next/link';
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { addUser } from '../redux/slices/usersSlice';
 
 import DarkModeSwitcher from '../components/DarkModeSwitcher';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const page = () => {
 
     const router = useRouter()
+    const users = useSelector((state: any) => state.users);
+    const [user, setUser] = useState([])
+    const dispatch = useDispatch();
+    const [initialized, setInitialized] = useState(false); // Track initialization
+    
+    const [username, setUsername] = useState<any>();
+    const [password, setPassword] = useState<any>();
+
+    useEffect(() => {
+      const storedUsers = localStorage.getItem('users');
+      if (storedUsers && !initialized) {
+        setUser(JSON.parse(storedUsers));
+        setInitialized(true); // Update initialization state
+      }
+    }, [initialized]); // Run effect only when initialized changes
+  
+    useEffect(() => {
+      if (initialized) {
+        localStorage.setItem('users', JSON.stringify(users));
+      }
+    }, [initialized, users]);
+
+    async function handleSubmit (){
+
+        const check = await users.find((a: { id: string; username: string | undefined; password: string | undefined; }) =>
+            a.username === username && a.password === password
+        )
+
+        if (check) {
+            localStorage.setItem("username", username);
+            localStorage.setItem("password", password);
+
+            toast.success('Login berhasil!', {
+                position: "top-center",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+
+            router.push('/')
+        } else {
+
+            toast.error('Login gagal. Coba lagi!', {
+                position: "top-center",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+    }
+
+    console.log('users: ', users)
 
     return (
         <div className=''>
@@ -61,8 +127,8 @@ const page = () => {
                                 <div className="relative">
                                     <input
                                         type="text"
-                                        // value={email}
-                                        // onChange={(e) => setEmail(e.target.value)}
+                                        value={username}
+                                        onChange={(e) => setUsername(e.target.value)}
                                         placeholder="Username anda..."
                                         className="w-full rounded-full border border-[#494949] bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                     />
@@ -94,8 +160,8 @@ const page = () => {
                                 <div className="relative">
                                     <input
                                         type="password"
-                                        // value={password}
-                                        // onChange={(e) => setPassword(e.target.value)}
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
                                         placeholder="Password anda..."
                                         className="w-full rounded-full border border-[#494949] bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                     />
@@ -126,7 +192,7 @@ const page = () => {
 
                                 <div className="mb-5">
                                 <div
-                                    // onClick={handleSubmit}
+                                    onClick={handleSubmit}
                                     className="w-full text-center font-bold cursor-pointer rounded-full bg-[#131167] text-[#E5E7FD] dark:bg-[#E5E7FD] dark:text-[#131167] p-4 transition duration-300 hover:bg-[#E5E7FD] hover:text-[#131167] dark:hover:bg-[#131167] dark:hover:text-[#E5E7FD]"
                                 >
                                     Masuk Sekarang
@@ -144,6 +210,8 @@ const page = () => {
                     </div>
                 </div>
             </div>
+      
+            <ToastContainer />
         </div>
     )
 }

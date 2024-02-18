@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image";
 import Link from 'next/link';
 import Navbar from "./components/navbar";
@@ -5,7 +7,130 @@ import Footer from "./components/footer";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { IoLogOut } from "react-icons/io5";
 
+import { useRouter } from 'next/navigation';
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { updateUser } from './redux/slices/usersSlice';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 export default function Home() {
+
+  const router = useRouter()
+  const users = useSelector((state: any) => state.users);
+  const [user, setUser] = useState([])
+  const dispatch = useDispatch();
+  const [initialized, setInitialized] = useState(false);
+  
+  const [loggeduser, setLoggedUser] = useState<any>();
+  const [id, setId] = useState<any>();
+  const [username, setUsername] = useState<any>();
+  const [password, setPassword] = useState<any>();
+  const [handphone, setHandphone] = useState<any>();
+  const [confirmPassword, setConfirmPassword] = useState<any>();
+
+  useEffect(() => {
+    const storedUsers = localStorage.getItem('users');
+    if (storedUsers && !initialized) {
+      setUser(JSON.parse(storedUsers));
+      setInitialized(true);
+    }
+  }, [initialized]);
+
+  useEffect(() => {
+    if (initialized) {
+      localStorage.setItem('users', JSON.stringify(users));
+    }
+    if (users.length < 2) {
+      setId(localStorage.getItem('id'))
+      setUsername(localStorage.getItem('username'))
+      setHandphone(localStorage.getItem('handphone'))
+      setPassword(localStorage.getItem('password'))
+      setConfirmPassword(localStorage.getItem('confirmPassword'))
+    }
+  }, [initialized, users]);
+
+  useEffect(() => {
+    if (localStorage.getItem("username") == null) {
+      router.push('/login')
+    }
+  }, []);
+
+  useEffect(() => {
+    for (let i = 0; i < users.length; i++) {
+      if (users.length > 1){
+        if ((users[i].username === (localStorage.getItem("username"))) && (users[i].password === (localStorage.getItem("password")))) {
+          setId(users[i].id)
+          setUsername(users[i].username)
+          setPassword(users[i].password)
+          setHandphone(users[i].handphone)
+          setConfirmPassword(users[i].confirmPassword)
+          localStorage.setItem("id", users[i].id)
+          localStorage.setItem("handphone", users[i].handphone)
+          localStorage.setItem("confirmPassword", users[i].confirmPassword)
+        }
+      }
+    }
+  }, [])
+
+  const handleEditUser = (e: any) => {
+    e.preventDefault();
+
+    if (!username && !handphone && !password && !confirmPassword) return;
+
+    const newUser = {
+      id: id,
+      username: username,
+      handphone: handphone,
+      password: password,
+      confirmPassword: confirmPassword,
+    };
+
+    localStorage.setItem("id", id)
+    localStorage.setItem("username", username)
+    localStorage.setItem("handphone", handphone)
+    localStorage.setItem("password", password)
+    localStorage.setItem("confirmPassword", confirmPassword)
+
+    dispatch(updateUser(newUser));
+
+    toast.success('Data user berhasil diubah!', {
+        position: "top-center",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+  };
+
+  const handleLogout = () => {
+    localStorage.clear()
+
+    toast.success('Logout berhasil!', {
+        position: "top-center",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+    
+    setTimeout(() => { 
+      router.push('/login')
+    }, 2000)
+  };
+
+  console.log('users: ', users)
+  console.log('localstorage username: ', username)
+  console.log('localstorage password: ', password)
+  console.log('loggedUser: ', loggeduser)
+
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar/>
@@ -33,7 +158,7 @@ export default function Home() {
               <FaRegCircleUser className='w-full h-full text-[#1c1c1c] dark:text-[#FBFAF5]'/>
             </div>
             <div className="text-xl font-semibold text-[#1c1c1c] dark:text-[#FBFAF5]">
-              No Name
+              {username}
             </div>
           </div>
 
@@ -46,7 +171,7 @@ export default function Home() {
         <div className="w-full xl:w-[1280px] mt-8 flex xl:mb-4">
 
           {/* Sidebar */}
-          <div className="hidden w-1/4 mr-[50px] h-fit xl:flex flex-col">
+          <div className="hidden w-1/4 mr-[50px] pt-8 h-fit xl:flex flex-col">
             <div className="pl-4 flex justify-start items-center gap-4 text-[#1c1c1c] dark:text-[#FBFAF5]">
               <div className="w-[30px] h-[30px]">
                 <FaRegCircleUser className="w-full h-full"/>
@@ -56,14 +181,14 @@ export default function Home() {
               </div>
             </div>
             <hr className="my-8 text-[#1c1c1c]"/>
-            <div className="pl-4 flex justify-start items-center gap-4">
+            <button onClick={handleLogout} className="pl-4 flex justify-start items-center gap-4">
               <div className="w-[30px] h-[30px]">
                 <IoLogOut className="w-full h-full text-[#DC2626]"/>
               </div>
               <div className="text-[#1c1c1c] dark:text-[#FBFAF5]">
                 Logout
               </div>
-            </div>
+            </button>
           </div>
 
           {/* Form */}
@@ -73,7 +198,7 @@ export default function Home() {
             </div>
             <hr className="my-4"/>
 
-            <form className='text-[#1c1c1c] dark:text-[#FBFAF5]'>
+            <form onSubmit={handleEditUser} className='text-[#1c1c1c] dark:text-[#FBFAF5]'>
                 <div className="mb-2">
                     <label className="mb-2.5 block font-semibold text-[#666666] dark:text-[#FBFAF5]">
                         Username
@@ -81,8 +206,8 @@ export default function Home() {
                     <div className="relative">
                         <input
                             type="text"
-                            // value={email}
-                            // onChange={(e) => setEmail(e.target.value)}
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
                             placeholder="Ketik nama anda disini..."
                             className="w-full rounded-full border border-[#494949] bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                         />
@@ -96,8 +221,8 @@ export default function Home() {
                     <div className="relative">
                         <input
                             type="text"
-                            // value={email}
-                            // onChange={(e) => setEmail(e.target.value)}
+                            value={handphone}
+                            onChange={(e) => setHandphone(e.target.value)}
                             placeholder="Nomor handphone anda"
                             className="w-full rounded-full border border-[#494949] bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                         />
@@ -111,8 +236,8 @@ export default function Home() {
                     <div className="relative">
                         <input
                             type="password"
-                            // value={password}
-                            // onChange={(e) => setPassword(e.target.value)}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                             placeholder="Masukkan password anda"
                             className="w-full rounded-full border border-[#494949] bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                         />
@@ -126,8 +251,8 @@ export default function Home() {
                     <div className="relative">
                         <input
                             type="password"
-                            // value={password}
-                            // onChange={(e) => setPassword(e.target.value)}
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
                             placeholder="Masukkan kembali password anda"
                             className="w-full rounded-full border border-[#494949] bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                         />
@@ -136,7 +261,7 @@ export default function Home() {
 
                 <div className="">
                   <div
-                      // onClick={handleSubmit}
+                      onClick={handleEditUser}
                       className="w-full lg:w-1/4 text-center font-bold cursor-pointer rounded-full bg-[#E5E7FD] text-[#131167] p-4 transition duration-300 hover:bg-[#131167] hover:text-[#E5E7FD]"
                   >
                       Edit Profile
@@ -147,6 +272,8 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      <ToastContainer />
 
       <Footer/>
     </div>
