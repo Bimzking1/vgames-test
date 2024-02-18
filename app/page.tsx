@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from 'next/link';
+import Cookies from "js-cookie";
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
 import { FaRegCircleUser } from "react-icons/fa6";
@@ -50,6 +51,8 @@ export default function Home() {
       setConfirmPassword(localStorage.getItem('confirmPassword'))
     }
   }, [initialized, users]);
+
+  console.log('cookiez: ', Cookies.get('cookie'))
 
   useEffect(() => {
     if (localStorage.getItem("username") == null) {
@@ -120,6 +123,8 @@ export default function Home() {
         progress: undefined,
         theme: "light",
     });
+
+    Cookies.remove('cookie');
     
     setTimeout(() => { 
       router.push('/login')

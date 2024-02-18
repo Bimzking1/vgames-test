@@ -3,6 +3,7 @@
 import React from 'react'
 import Link from 'next/link';
 import Image from "next/image";
+import Cookies from "js-cookie";
 import { useRouter } from 'next/navigation';
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
@@ -19,7 +20,7 @@ const page = () => {
     const users = useSelector((state: any) => state.users);
     const [user, setUser] = useState([])
     const dispatch = useDispatch();
-    const [initialized, setInitialized] = useState(false); // Track initialization
+    const [initialized, setInitialized] = useState(false);
     
     const [username, setUsername] = useState<any>();
     const [password, setPassword] = useState<any>();
@@ -28,9 +29,9 @@ const page = () => {
       const storedUsers = localStorage.getItem('users');
       if (storedUsers && !initialized) {
         setUser(JSON.parse(storedUsers));
-        setInitialized(true); // Update initialization state
+        setInitialized(true);
       }
-    }, [initialized]); // Run effect only when initialized changes
+    }, [initialized]);
   
     useEffect(() => {
       if (initialized) {
@@ -57,6 +58,10 @@ const page = () => {
                 draggable: true,
                 progress: undefined,
                 theme: "light",
+            });
+
+            Cookies.set('cookie', 'cookie', {
+              expires: new Date(new Date().getTime() + 1 * 60 * 1000),
             });
 
             router.push('/')
