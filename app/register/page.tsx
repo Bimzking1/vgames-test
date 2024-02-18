@@ -29,7 +29,7 @@ const page = () => {
                         <div className='mb-4 w-full flex justify-end px-4 xl:px-32'>
                             <DarkModeSwitcher/>
                         </div>
-                        <div className="w-1/2 p-4 sm:p-12.5 xl:p-0 xl:px-32">
+                        <div className="w-full lg:w-1/2 p-4 sm:p-12.5 xl:p-0 xl:px-32">
                             <h1 className="w-full flex justify-start items-center mb-4 text-3xl xl:text-6xl font-bold text-black dark:text-[#FBFAF5] sm:text-title-xl2">
                                 Daftarkan Akun
                             </h1>
